@@ -4,7 +4,7 @@
   "description": "A gui for frix.",
   "main": "gulpfile.js",
   "bin": {
-    "frix-gui-start": "./gulpfile.js"
+    "frix-gui-start": "node ./gulpfile.js"
   },
   "repository": {
     "type": "git",
