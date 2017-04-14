@@ -1,7 +1,0 @@
-{
-  "/page1": {
-    "template": "page.html",
-    "content": "page-atom.json"
-  },
-  "/page2": "page"
-}
