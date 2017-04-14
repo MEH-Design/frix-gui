@@ -18,8 +18,8 @@ const watch = {
   css: 'src/style/**/*.css',
   html: 'src/markup/**/*.hbs',
   js: 'src/script/**/*.js',
-  content: 'frix/content/**/*.json',
-  templates: 'frix/content/**/*.*'
+  content: frix.api.getOpt().root + 'frix/content/**/*.json',
+  templates: frix.api.getOpt().root + 'frix/content/**/*.*'
 };
 const frix = require('frix');
 
