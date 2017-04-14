@@ -4,7 +4,7 @@
   "description": "A gui for frix.",
   "main": "gulpfile.js",
   "bin": {
-    "frix-gui-start": "gulpfile.js"
+    "frix-gui-start": "./gulpfile.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
   "dependencies": {
     "decb": "^1.3.2",
     "escape-html": "^1.0.3",
-    "frix": "^0.3.6",
+    "frix": "^0.3.8",
     "gulp": "^3.9.1",
     "gulp-compile-handlebars": "^0.6.1",
     "gulp-connect": "^5.0.0",
