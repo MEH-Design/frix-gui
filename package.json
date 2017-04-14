@@ -2,9 +2,9 @@
   "name": "frix-gui",
   "version": "1.0.5",
   "description": "A gui for frix.",
-  "main": "gulpfile.js",
+  "main": "bin/start.js",
   "bin": {
-    "frix-gui-start": "node ./gulpfile.js"
+    "frix-gui-start": "bin/start.js"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
     "postcss-cssnext": "^2.8.0",
     "postcss-initial": "^1.5.2",
     "posthtml-bem": "^0.2.2",
-    "posthtml-inline-assets": "^1.0.2"
+    "posthtml-inline-assets": "^1.0.2",
+    "shelljs": "^0.7.7"
   }
 }
