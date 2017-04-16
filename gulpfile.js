@@ -14,6 +14,7 @@ const rename = require('gulp-rename');
 const imagemin = require('gulp-imagemin');
 const posthtml = require('gulp-posthtml');
 const inline = require('gulp-inline');
+const frix = require('frix');
 const watch = {
   css: 'src/style/**/*.css',
   html: 'src/markup/**/*.hbs',
@@ -21,7 +22,6 @@ const watch = {
   content: frix.api.getOpt().root + 'frix/content/**/*.json',
   templates: frix.api.getOpt().root + 'frix/content/**/*.*'
 };
-const frix = require('frix');
 
 frix.api.getOpt().root += 'frix/';
 
