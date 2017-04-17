@@ -80,12 +80,10 @@ gulp.task('html', function (done) {
         .pipe(inline({
           base: 'src/images'
         }))
-        .pipe(gulp.dest('build'))
-        .pipe(connect.reload());
+        .pipe(gulp.dest('build'));
 
       gulp.src('frix/bin/**/*.*')
-        .pipe(gulp.dest('build/bin'))
-        .pipe(connect.reload());
+        .pipe(gulp.dest('build/bin'));
 
       done();
     });
@@ -97,14 +95,12 @@ gulp.task('css', () => {
     .pipe(postcss([
       require('postcss-cssnext')
     ]))
-    .pipe(gulp.dest('build'))
-    .pipe(connect.reload());
+    .pipe(gulp.dest('build'));
 });
 
 gulp.task('js', () => {
   gulp.src(watch.js)
-    .pipe(gulp.dest('build'))
-    .pipe(connect.reload());
+    .pipe(gulp.dest('build'));
 });
 
 gulp.task('content', ['html']);
