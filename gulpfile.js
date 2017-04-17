@@ -7,7 +7,7 @@ const fs = decb(require('fs'), {
   use: ['readFile', 'writeFile']
 });
 const postcss = require('gulp-postcss');
-const connect = require('gulp-connect');
+const express = require('express');
 const Handlebars = require('handlebars');
 const handlebars = require('gulp-compile-handlebars');
 const rename = require('gulp-rename');
@@ -22,7 +22,6 @@ const watch = {
   content: frix.api.getOpt().root + 'frix/content/**/*.json',
   templates: frix.api.getOpt().root + 'frix/content/**/*.*'
 };
-
 frix.api.getOpt().root += 'frix/';
 
 Handlebars.registerHelper('tree', (context, options) => {
@@ -112,11 +111,11 @@ gulp.task('content', ['html']);
 gulp.task('templates', ['html']);
 
 gulp.task('connect', () => {
-  connect.server({
-    port: 8080,
-    root: 'build',
-    livereload: true
+  let app = express();
+  frix.render().then((requestHandler) => {
+    app.use(requestHandler);
   });
+  app.listen(80);
 });
 
 gulp.task('watch', () => {
