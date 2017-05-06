@@ -128,6 +128,10 @@ gulp.task('connect', () => {
       });
     });
   });
+  // sitemap
+  app.get('/sitemap.xml', function(req, res) {
+    res.sendFile(frix.api.getOpt().root + 'sitemap.xml');
+  });
   // frix core
   frix.render().then((requestHandler) => {
     app.use(requestHandler);
