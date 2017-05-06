@@ -107,6 +107,15 @@ gulp.task('content', ['html']);
 gulp.task('templates', ['html']);
 
 gulp.task('connect', () => {
+  fs.readFile(frix.api.getOpt().root + 'redirects.json')
+    .then(JSON.parse)
+    .then(redirects => {
+      redirects.urls.forEach(url => {
+        app.get(url.from, function(req, res) {
+          res.redirect(url.to);
+        });
+      });
+    });
   let app = express();
   frix.render().then((requestHandler) => {
     app.use(requestHandler);
