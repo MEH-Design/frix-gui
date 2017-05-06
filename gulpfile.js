@@ -107,19 +107,32 @@ gulp.task('content', ['html']);
 gulp.task('templates', ['html']);
 
 gulp.task('connect', () => {
+  let app = express();
+  // www redirect
+  function wwwRedirect(req, res, next) {
+      if (req.headers.host.slice(0, 4) === 'www.') {
+          var newHost = req.headers.host.slice(4);
+          return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
+      }
+      next();
+  };
+  app.set('trust proxy', true);
+  app.use(wwwRedirect);
+  // old website urls redirect
   fs.readFile(frix.api.getOpt().root + 'redirects.json')
-    .then(JSON.parse)
-    .then(redirects => {
-      redirects.urls.forEach(url => {
-        app.get(url.from, function(req, res) {
-          res.redirect(url.to);
-        });
+  .then(JSON.parse)
+  .then(redirects => {
+    redirects.urls.forEach(url => {
+      app.get(url.from, function(req, res) {
+        res.redirect(url.to);
       });
     });
-  let app = express();
+  });
+  // frix core
   frix.render().then((requestHandler) => {
     app.use(requestHandler);
   });
+
   app.listen(80);
 });
 
