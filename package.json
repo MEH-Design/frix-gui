@@ -1,6 +1,6 @@
 {
   "name": "frix-gui",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "A gui for frix.",
   "main": "bin/start.js",
   "bin": {
