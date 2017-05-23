@@ -1,7 +1,8 @@
-const path = require('path');
+const appRoot = require('app-root-path');
 const gulp = require('gulp');
 const keva = require('keva');
 const decb = require('decb');
+const crypto = require('crypto');
 const escape = require('escape-html');
 const fs = decb(require('fs'), {
   use: ['readFile', 'writeFile']
@@ -23,6 +24,11 @@ const watch = {
   templates: frix.api.getOpt().root + 'frix/content/**/*.*'
 };
 frix.api.getOpt().root += 'frix/';
+
+// authentication
+const passport = require('passport');
+const Strategy = require('passport-local').Strategy;
+const pass = require('./build/pass');
 
 Handlebars.registerHelper('tree', (context, options) => {
   return '<ul class="tree">' +tree(context, '', 'ul');
@@ -116,6 +122,7 @@ gulp.task('connect', () => {
       }
       next();
   };
+
   app.set('trust proxy', true);
   app.use(wwwRedirect);
   // old website urls redirect
@@ -138,6 +145,51 @@ gulp.task('connect', () => {
   });
 
   app.listen(80);
+
+  let appAdmin = express();
+  appAdmin.use(require('cookie-parser')());
+  appAdmin.use(require('body-parser').urlencoded({ extended: true }));
+  appAdmin.use(require('express-session')({ secret: '|=|2!><', resave: false, saveUninitialized: false }));
+
+  passport.use(new Strategy((id, password, cb) => {
+    pass.getRecord(id, function(pass) {
+      return cb(null, pass);
+    });
+  }));
+
+  passport.serializeUser(function(_, cb) {
+    cb(null, 1); // id is irrelevant
+  });
+
+  passport.deserializeUser(function(id, cb) {
+    pass.getRecord(id, function(pass) {
+      cb(null, pass);
+    });
+  });
+
+
+  appAdmin.set('trust proxy', true);
+  appAdmin.use(wwwRedirect);
+  appAdmin.use(passport.initialize());
+  appAdmin.use(passport.session());
+
+  appAdmin.get('/login', (req, res) => {
+    res.sendFile(`${appRoot}/build/login.html`);
+  });
+
+  appAdmin.post('/login',
+  passport.authenticate('local', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/');
+  });
+
+  appAdmin.get('/',
+  //require('connect-ensure-login').ensureLoggedIn(),
+  function(req, res){
+    res.sendFile(`${appRoot}/build/index.html`);
+  });
+
+  appAdmin.listen(61824);
 });
 
 gulp.task('watch', () => {
