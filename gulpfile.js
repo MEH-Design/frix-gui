@@ -28,7 +28,7 @@ frix.api.getOpt().root += 'frix/';
 // authentication
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
-const pass = require('./build/pass');
+const db = require('./db');
 
 Handlebars.registerHelper('tree', (context, options) => {
   return '<ul class="tree">' +tree(context, '', 'ul');
@@ -151,22 +151,25 @@ gulp.task('connect', () => {
   appAdmin.use(require('body-parser').urlencoded({ extended: true }));
   appAdmin.use(require('express-session')({ secret: '|=|2!><', resave: false, saveUninitialized: false }));
 
-  passport.use(new Strategy((id, password, cb) => {
-    pass.getRecord(id, function(pass) {
-      return cb(null, pass);
+  passport.use(new Strategy(function(username, password, cb) {
+    db.findByUsername(username, function(err, user) {
+      if (err) { return cb(err); }
+      if (!user) { return cb(null, false); }
+      if (user.password != password) { return cb(null, false); }
+      return cb(null, user);
     });
   }));
 
-  passport.serializeUser(function(_, cb) {
-    cb(null, 1); // id is irrelevant
+  passport.serializeUser(function(user, cb) {
+    cb(null, user.id);
   });
 
   passport.deserializeUser(function(id, cb) {
-    pass.getRecord(id, function(pass) {
-      cb(null, pass);
+    db.findById(id, function (err, user) {
+    if (err) { return cb(err); }
+      cb(null, user);
     });
   });
-
 
   appAdmin.set('trust proxy', true);
   appAdmin.use(wwwRedirect);
@@ -183,11 +186,8 @@ gulp.task('connect', () => {
     res.redirect('/');
   });
 
-  appAdmin.get('/',
-  //require('connect-ensure-login').ensureLoggedIn(),
-  function(req, res){
-    res.sendFile(`${appRoot}/build/index.html`);
-  });
+  appAdmin.use('/*', require('connect-ensure-login').ensureLoggedIn());
+  appAdmin.use(express.static(`${appRoot}/build`));
 
   appAdmin.listen(61824);
 });
