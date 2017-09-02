@@ -1,0 +1,64 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Login</title>
+  <link href="style.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.6.0/sha256.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
+  <script src="script.js"></script>
+</head>
+<body>
+  <div class="section"></div>
+  <main class="center-align">
+      <div class="section"></div>
+
+      <h5 class="white-text">Bitte melde dich an.</h5>
+      <div class="section"></div>
+
+      <div class="container">
+        <div class="row">
+          <div class="col s4 z-depth-1 grey lighten-4 offset-s4">
+          <form class="col s10 offset-s1" action="/login" method="post">
+            <div class='row'>
+              <div class='col s12'>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='input-field col s12'>
+                <input class='validate' type='text' name='username' id='username' />
+                <label for='username'>Benutzername</label>
+              </div>
+            </div>
+
+            <div class='row'>
+              <div class='input-field col s12'>
+                <input type='hidden' name='password' />
+                <input class='validate' type='password' id='password' />
+                <label for='password'>Passwort</label>
+              </div>
+              <label>
+                <span id="wrongpass" class='red-text'>Ungültiger Login!</span>
+              </label>
+            </div>
+
+            <br />
+            <center>
+              <div class='row'>
+                <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect'>Login</button>
+              </div>
+            </center>
+          </form>
+        </div>
+        </div></div>
+    <div class="section"></div>
+    <div class="section"></div>
+  </main>
+  <iframe class="preview blurred"></iframe>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+</body>
+
+</html>
