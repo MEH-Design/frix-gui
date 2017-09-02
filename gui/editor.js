@@ -11,7 +11,8 @@ $.ajax('/pages').done((pages) => {
         //console.log(data.data);
         JSONEditor.defaults.editors.object.options.collapsed = true;
         document.getElementById('json-editor').innerHTML = '';
-        console.log(data.schema);
+        console.log(JSON.parse(JSON.stringify(data.schema)));
+        console.log(JSON.parse(data.data));
         window.editor = new JSONEditor(document.getElementById('json-editor'), { schema: data.schema });
         window.editor.setValue(preType(JSON.parse(data.data)));
         // Listen for changes

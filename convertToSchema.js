@@ -1,4 +1,5 @@
 const keva = require('keva');
+const merge = require('deepmerge');
 
 module.exports = (name, json) => {
   let schema = {
@@ -19,31 +20,33 @@ function convert(data, definitions) {
       };
     } else if(value instanceof Array) {
       let distinctTypes = new Set();
-      data[key] = {
-        title: key,
-        type: 'array',
-        items: {
-          anyOf: []
-        }
-      };
+      if(!data[key].items) {
+        data[key] = {
+          title: key,
+          type: 'array',
+          items: {
+            anyOf: []
+          }
+        };
+      }
       value.forEach((element) => {
         if(typeof element.data === 'string') {
           element.data = {
             value: element.data
           };
         }
-        if(!definitions[element.type]) {
-          distinctTypes.add(element.type);
-          definitions[element.type] = {
-            title: element.type,
-            type: 'object',
-            additionalProperties: false,
-            properties: convert(element.data, definitions)
-          };
-          definitions[element.type].properties['&type'] = {
-            type: 'string'
-          };
-        }
+        let newDefinition = {
+          title: element.type,
+          type: 'object',
+          additionalProperties: false,
+          properties: convert(element.data, definitions)
+        };
+        distinctTypes.add(element.type);
+        let concatMerge = (src, dst) => src.concat(dst);
+        definitions[element.type] = merge(definitions[element.type] || {}, newDefinition, { arrayMerge: concatMerge });
+        definitions[element.type].properties['&type'] = {
+          type: 'string'
+        };
       });
       for(let item of distinctTypes) {
         data[key].items.anyOf.push({
