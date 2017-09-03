@@ -39,3 +39,6 @@ jspm_packages
 # Build Directories
 build/*
 frix
+
+# Password Data
+password.js

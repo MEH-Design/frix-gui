@@ -1,0 +1,42 @@
+iframe.preview {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  transition: all 1.5s;
+  border: none;
+}
+
+iframe.preview.blurred {
+  filter: blur(5px) brightness(0.7);
+  z-index: -1;
+}
+
+iframe.preview.active {
+  width: 58.3%;
+}
+
+iframe.preview.editor {
+  position: static;
+  height: 94%;
+}
+
+#json-editor {
+  height: 69.3%;
+  overflow-y: scroll;
+}
+
+#json-editor h3 {
+  font-size: 1.64rem;
+  line-height: 110%;
+  margin: .82rem 0 .656rem 0;
+}
+
+#json-editor button[class^=' json-editor-btn-edit'] {
+  display: none;
+}
+
+#json-editor div[data-schemapath*='&type'] {
+  display: none;
+}
