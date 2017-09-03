@@ -1,7 +1,8 @@
 window.addEventListener('load', () => {
-  // handle failed login attempt
-  if(window.location.hash === '#success') {
+  if(window.location.hash !== '#failed') {
     document.querySelector('#wrongpass').style.display = 'none';
+  }
+  if(window.location.hash === '#success') {
     TweenLite.to(document.querySelector('main'), 1.5, { ease: Back.easeIn, y: -500 });
     setTimeout(() => {
       document.querySelector('iframe.preview').classList.remove('blurred');
