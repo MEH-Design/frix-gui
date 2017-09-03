@@ -74,9 +74,27 @@ module.exports = () => {
       fs.readFile(frix.api.getOpt().root + 'content/' + contentFile)
       .then(JSON.parse)
       .then((content) => {
+        try {
+          let result = JSON.stringify({
+            data: JSON.stringify(content),
+            schema: convertToSchema(req.body.page, content)
+          }, null, 4);
+          res.json(JSON.parse(result));
+        } catch (e) {
+          console.log(e);
+        }
+      });
+    }
+  );
+
+  app.post('/write',
+  //  connectEnsureLogin.ensureLoggedIn(),
+    (req, res) => {
+      let contentFile = frix.api.keys[req.body.page].content;
+      fs.writeFile(frix.api.getOpt().root + 'content/' + contentFile, JSON.stringify(req.body.data, null, 4))
+      .then(() => {
         res.json({
-          data: JSON.stringify(content),
-          schema: convertToSchema(req.body.page, content)
+          success: true
         });
       });
     }

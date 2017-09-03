@@ -1,4 +1,6 @@
 const frix = require('frix');
+const appRoot = require('app-root-path');
+const gutil = require('gulp-util');
 
 module.exports = () => {
   frix.api.getOpt().root += 'frix/';

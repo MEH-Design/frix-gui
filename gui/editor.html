@@ -8,6 +8,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.6.0/sha256.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
     <script src="script.js"></script>
+    <meta http-Equiv="Cache-Control" Content="no-cache" />
+    <meta http-Equiv="Pragma" Content="no-cache" />
+    <meta http-Equiv="Expires" Content="0" />
   </head>
   <body>
     <main>
@@ -17,12 +20,15 @@
             <div class="input-field col s12">
               <i class="material-icons prefix">pageview</i>
               <input type="text" id="autocomplete-input" class="autocomplete">
-              <label for="autocomplete-input">Autocomplete</label>
+              <label for="autocomplete-input" class="active">Autocomplete</label>
             </div>
           </div>
           <div class="row card">
             <div class="card-content">
               <span class="card-title">Editor</span>
+              <div class="progress" style="display:none">
+                <div class="indeterminate"></div>
+              </div>
               <div id="json-editor"></div>
             </div>
           </div>

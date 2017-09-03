@@ -1,3 +1,41 @@
+let progress = {
+  start: () => {
+    document.querySelector('.progress').style.display = 'block';
+  },
+  stop: () => {
+    document.querySelector('.progress').style.display = 'none';
+  }
+};
+
+let timeout = 1000;
+
+let loadEditor = (page) => {
+  progress.start();
+  $.post('/schema', { page: page }).done((data) => {
+    setTimeout(() => {
+      progress.stop();
+      JSONEditor.defaults.editors.object.options.collapsed = true;
+      document.getElementById('json-editor').innerHTML = '';
+      window.editor = new JSONEditor(document.getElementById('json-editor'), { schema: data.schema });
+      window.editor.setValue(preType(JSON.parse(data.data)));
+      let iframe = document.querySelector('iframe.preview');
+      iframe.src = `http://${window.location.hostname}:80${page}`;
+      // Listen for changes
+      setTimeout(() => {
+        window.editor.on('change',  () => {
+          progress.start();
+          $.post('/write', { page: page, data: postType(window.editor.getValue()) }).done(() => {
+            setTimeout(() => {
+              iframe.src = iframe.src;
+              progress.stop();
+            }, timeout);
+          });
+        });
+      }, timeout);
+    }, timeout);
+  });
+}
+
 $.ajax('/pages').done((pages) => {
   window.pages = Object.assign({}, pages);
   for(var p in pages) {
@@ -6,20 +44,10 @@ $.ajax('/pages').done((pages) => {
   };
   $('input.autocomplete').autocomplete({
     data: pages,
-    onAutocomplete: (page) => {
-      $.post('/schema', { page: page }).done((data) => {
-        //console.log(data.data);
-        JSONEditor.defaults.editors.object.options.collapsed = true;
-        document.getElementById('json-editor').innerHTML = '';
-        window.editor = new JSONEditor(document.getElementById('json-editor'), { schema: data.schema });
-        window.editor.setValue(preType(JSON.parse(data.data)));
-        // Listen for changes
-        window.editor.on("change",  function() {
-          let newData = window.editor.getValue();
-        });
-      });
-    }
+    onAutocomplete: loadEditor
   });
+  $('input.autocomplete').val('/');
+  loadEditor(Object.keys(pages)[0]);
 });
 
 function preType(data) {
