@@ -60,15 +60,15 @@ module.exports = () => {
     res.sendFile(`${appRoot}/gui/editor.js`);
   });
 
-  /*app.post('/login',
+  app.post('/login',
     passport.authenticate('local', { failureRedirect: '/login#failed' }),
     (req, res) => {
       res.redirect('/login#success');
     }
-  );*/
+  );
 
   app.post('/schema',
-  //  connectEnsureLogin.ensureLoggedIn(),
+   connectEnsureLogin.ensureLoggedIn(),
     (req, res) => {
       let contentFile = frix.api.keys[req.body.page].content;
       fs.readFile(frix.api.getOpt().root + 'content/' + contentFile)
@@ -88,7 +88,7 @@ module.exports = () => {
   );
 
   app.post('/write',
-  //  connectEnsureLogin.ensureLoggedIn(),
+   connectEnsureLogin.ensureLoggedIn(),
     (req, res) => {
       let contentFile = frix.api.keys[req.body.page].content;
       fs.writeFile(frix.api.getOpt().root + 'content/' + contentFile, JSON.stringify(req.body.data, null, 4))
@@ -101,21 +101,21 @@ module.exports = () => {
   );
 
   app.get('/editor',
-  //  connectEnsureLogin.ensureLoggedIn(),
+   connectEnsureLogin.ensureLoggedIn(),
     (req, res) => {
       res.sendFile(`${appRoot}/gui/editor.html`);
     }
   );
 
   app.get('/pages',
-  //  connectEnsureLogin.ensureLoggedIn(),
+   connectEnsureLogin.ensureLoggedIn(),
     (req, res) => {
       res.json(frix.api.keys);
     }
   );
 
   app.get('/',
-  //  passport.authenticate('local', { failureRedirect: '/login' }),
+   passport.authenticate('local', { failureRedirect: '/login' }),
     (req, res) => {
       res.redirect('/editor');
     }
