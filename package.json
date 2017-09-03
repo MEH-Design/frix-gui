@@ -27,7 +27,7 @@
     "deepmerge": "^1.5.1",
     "express": "^4.15.2",
     "express-session": "^1.15.3",
-    "frix": "^0.3.10",
+    "frix": "^0.3.14",
     "gulp": "^3.9.1",
     "gutil": "^1.6.4",
     "keva": "^1.0.0",

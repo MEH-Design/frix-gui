@@ -24,7 +24,7 @@ let loadEditor = (page) => {
       setTimeout(() => {
         window.editor.on('change',  () => {
           progress.start();
-          $.post('/write', { page: page, data: postType(window.editor.getValue()) }).done(() => {
+          $.post('/write', { page: page, data: postType(JSON.parse(JSON.stringify(window.editor.getValue()))) }).done((data) => {
             setTimeout(() => {
               iframe.src = iframe.src;
               progress.stop();

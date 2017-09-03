@@ -45,7 +45,8 @@ function convert(data, definitions) {
         let concatMerge = (src, dst) => src.concat(dst);
         definitions[element.type] = merge(definitions[element.type] || {}, newDefinition, { arrayMerge: concatMerge });
         definitions[element.type].properties['&type'] = {
-          type: 'string'
+          type: 'string',
+          default: element.type
         };
       });
       for(let item of distinctTypes) {
