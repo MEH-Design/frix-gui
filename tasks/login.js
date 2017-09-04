@@ -1,4 +1,3 @@
-const appRoot = require('app-root-path');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -11,6 +10,7 @@ const fs = require('then-fs');
 const db = require('../db');
 const wwwRedirect = require('../wwwRedirect');
 const convertToSchema = require('../convertToSchema');
+const guiRoot = __dirname.replace('tasks', 'gui');
 
 // login
 module.exports = () => {
@@ -45,19 +45,20 @@ module.exports = () => {
   app.use(passport.session());
 
   app.get('/login', (req, res) => {
-    res.sendFile(`${appRoot}/gui/login.html`);
+    console.log(`${guiRoot}/login.html`);
+    res.sendFile(`${guiRoot}/login.html`);
   });
 
   app.get('/style.css', (req, res) => {
-    res.sendFile(`${appRoot}/gui/style.css`);
+    res.sendFile(`${guiRoot}/style.css`);
   });
 
   app.get('/script.js', (req, res) => {
-    res.sendFile(`${appRoot}/gui/script.js`);
+    res.sendFile(`${guiRoot}/script.js`);
   });
 
   app.get('/editor.js', (req, res) => {
-    res.sendFile(`${appRoot}/gui/editor.js`);
+    res.sendFile(`${guiRoot}/editor.js`);
   });
 
   app.post('/login',
@@ -103,7 +104,7 @@ module.exports = () => {
   app.get('/editor',
    connectEnsureLogin.ensureLoggedIn(),
     (req, res) => {
-      res.sendFile(`${appRoot}/gui/editor.html`);
+      res.sendFile(`${guiRoot}/editor.html`);
     }
   );
 

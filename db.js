@@ -1,4 +1,5 @@
-const records = require('./password.js');
+const appRoot = require('app-root-path');
+const records = require(`${appRoot}/password.js`);
 
 exports.findById = function(id, cb) {
   process.nextTick(function() {

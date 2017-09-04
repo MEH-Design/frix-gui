@@ -2,9 +2,9 @@
   "name": "frix-gui",
   "version": "2.0.3",
   "description": "A gui for frix.",
-  "main": "start/index.js",
+  "main": "./start/index.js",
   "bin": {
-    "frix-gui-start": "start/index.js"
+    "frix-gui-start": "./start/index.js"
   },
   "repository": {
     "type": "git",
