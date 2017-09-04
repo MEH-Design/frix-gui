@@ -2,7 +2,7 @@ const frix = require('frix');
 const appRoot = require('app-root-path');
 const gutil = require('gulp-util');
 const shell = require('shelljs');
-const gitconf = require('../gitconf.js');
+const gitconf = require('./gitconf.js');
 
 var pushTimeout;
 

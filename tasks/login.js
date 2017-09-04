@@ -8,7 +8,7 @@ const passportLocal = require('passport-local');
 const connectEnsureLogin = require('connect-ensure-login');
 const frix = require('frix');
 const fs = require('then-fs');
-const db = require('../password');
+const db = require('../db');
 const wwwRedirect = require('../wwwRedirect');
 const convertToSchema = require('../convertToSchema');
 
