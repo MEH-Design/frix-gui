@@ -18,7 +18,7 @@ module.exports = () => {
       pushTimeout = setTimeout(() => {
         shell.exec(`git push https://${gitconf.user}:${gitconf.pass}@${gitconf.remote} --all`);
         gutil.log(`auto push to ${gitconf.remote}`);
-      }, 1000 * 60 * 60); // 1 hour
+      }, gitconf.timeout); // 1 hour
     }
   });
   return frix.render().then((requestHandler) => {
