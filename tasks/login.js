@@ -45,7 +45,6 @@ module.exports = () => {
   app.use(passport.session());
 
   app.get('/login', (req, res) => {
-    console.log(`${guiRoot}/login.html`);
     res.sendFile(`${guiRoot}/login.html`);
   });
 
