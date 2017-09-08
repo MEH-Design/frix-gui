@@ -13,7 +13,7 @@ module.exports = () => {
     gutil.log(`${data.render.key} rendered`);
     if(gitconf) {
       let file = frix.api.getOpt().root + 'content/' +  frix.api.keys[data.render.key].content;
-      shell.exec(`git add ${file} && git commit -m "${gitconf.message}"`);
+      shell.exec(`git add ${file} && git commit -c "user.name=${gitconf.name}" -c "user.email=${gitconf.email}" -m "${gitconf.message}"`);
       gutil.log(`auto commit ${file}`);
       if(pushTimeout) clearTimeout(pushTimeout);
       pushTimeout = setTimeout(() => {
