@@ -18,31 +18,20 @@ module.exports = () => {
   app.use(cookieParser());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(expressSession({ secret: '|=|2!><', resave: false, saveUninitialized: false }));
-
-  passport.use(new passportLocal.Strategy(function(username, password, cb) {
-    db.findByUsername(username, function(err, user) {
-      if (err) { return cb(err); }
-      if (!user) { return cb(null, false); }
-      if (user.password != password) { return cb(null, false); }
-      return cb(null, user);
-    });
-  }));
-
-  passport.serializeUser(function(user, cb) {
-    cb(null, user.id);
-  });
-
-  passport.deserializeUser(function(id, cb) {
-    db.findById(id, function (err, user) {
-    if (err) { return cb(err); }
-      cb(null, user);
-    });
-  });
-
   app.set('trust proxy', true);
   app.use(wwwRedirect);
-  app.use(passport.initialize());
-  app.use(passport.session());
+
+  if(db) {
+    initPassport(app);
+  } else {
+    function emptyMiddleware() {
+      return function(req, res, next) {
+        next();
+      }
+    };
+    passport.authenticate = emptyMiddleware;
+    connectEnsureLogin.ensureLoggedIn = emptyMiddleware;
+  }
 
   app.get('/login', (req, res) => {
     res.sendFile(`${guiRoot}/login.html`);
@@ -123,3 +112,28 @@ module.exports = () => {
 
   app.listen(61824);
 };
+
+function initPassport(app) {
+  passport.use(new passportLocal.Strategy(function(username, password, cb) {
+    db.findByUsername(username, function(err, user) {
+      if (err) { return cb(err); }
+      if (!user) { return cb(null, false); }
+      if (user.password != password) { return cb(null, false); }
+      return cb(null, user);
+    });
+  }));
+
+  passport.serializeUser(function(user, cb) {
+    cb(null, user.id);
+  });
+
+  passport.deserializeUser(function(id, cb) {
+    db.findById(id, function (err, user) {
+    if (err) { return cb(err); }
+      cb(null, user);
+    });
+  });
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+}
