@@ -11,6 +11,7 @@ const db = require('../db');
 const wwwRedirect = require('../wwwRedirect');
 const convertToSchema = require('../convertToSchema');
 const guiRoot = __dirname.replace('tasks', 'gui');
+const gutil = require('gulp-util');
 
 // login
 module.exports = () => {
@@ -26,7 +27,11 @@ module.exports = () => {
   } else {
     function emptyMiddleware() {
       return function(req, res, next) {
-        next();
+        if(req.headers.host === 'localhost:61824') {
+          next();
+        } else {
+          gutil.log(`Cannot run without password.js from anything other than localhost on port 61824.\nYour current host is ${req.headers.host}.`);
+        }
       }
     };
     passport.authenticate = emptyMiddleware;
