@@ -1,5 +1,5 @@
 window.addEventListener('load', () => {
-  if(window.location.hash !== '#failed') {
+  if(document.querySelector('#wrongpass') && window.location.hash !== '#failed') {
     document.querySelector('#wrongpass').style.display = 'none';
   }
   if(window.location.hash === '#success') {
