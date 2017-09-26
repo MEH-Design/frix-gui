@@ -17,7 +17,7 @@ module.exports = () => {
       if(gitconfProps.every((x) => x in gitconf)) {
         let file = frix.api.getOpt().root + 'content/' +  frix.api.keys[data.render.key].content;
         shell.exec(`git add ${file}`);
-        shell.exec(`git commit ${if(firstCommit) --amend} -c "user.name=${gitconf.name}" -c "user.email=${gitconf.email}" -m "${gitconf.message}"`);
+        shell.exec(`git commit ${if(firstCommit) "--amend"} -c "user.name=${gitconf.name}" -c "user.email=${gitconf.email}" -m "${gitconf.message}"`);
         gutil.log(`auto commit ${file}`);
         firstCommit = false;
         if(pushTimeout) clearTimeout(pushTimeout);
