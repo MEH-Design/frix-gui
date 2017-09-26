@@ -7,6 +7,7 @@ const gitconf = optional(`${appRoot}/gitconf.js`);
 const gitconfProps = ['user', 'pass', 'remote', 'message', 'email', 'name', 'timeout'];
 
 var pushTimeout;
+var firstCommit = true;
 
 module.exports = () => {
   frix.api.getOpt().root += 'frix/';
@@ -15,12 +16,15 @@ module.exports = () => {
     if(gitconf) {
       if(gitconfProps.every((x) => x in gitconf)) {
         let file = frix.api.getOpt().root + 'content/' +  frix.api.keys[data.render.key].content;
-        shell.exec(`git add ${file} && git commit -c "user.name=${gitconf.name}" -c "user.email=${gitconf.email}" -m "${gitconf.message}"`);
+        shell.exec(`git add ${file}`);
+        shell.exec(`git ${firstCommit ? commit : amend} -c "user.name=${gitconf.name}" -c "user.email=${gitconf.email}" -m "${gitconf.message}"`);
         gutil.log(`auto commit ${file}`);
+        firstCommit = false;
         if(pushTimeout) clearTimeout(pushTimeout);
         pushTimeout = setTimeout(() => {
           shell.exec(`git push https://${gitconf.user}:${gitconf.pass}@${gitconf.remote} --all`);
           gutil.log(`auto push to ${gitconf.remote}`);
+          firstCommit = true;
         }, gitconf.timeout);
       } else {
         gutil.log(gutil.colors.yellow('some properties in gitconf.js not found. Valid properties are ' + gitconfProps));
