@@ -22,7 +22,7 @@ module.exports = () => {
           shell.exec(`git config user.email ${gitconf.email}`);
           shell.exec(`git commit -m "${gitconf.message}"`);
         } else {
-          shell.exec(`git commit --amend`);
+          shell.exec('git commit --amend --no-edit');
         }
         gutil.log(`auto commit ${file}`);
         firstCommit = false;
