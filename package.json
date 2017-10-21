@@ -4,7 +4,7 @@
   "description": "A gui for frix.",
   "main": "./start/index.js",
   "bin": {
-    "frix-gui-start": "./start/index.js"
+    "frix-gui": "../frix-gui/bin/frix-gui.sh"
   },
   "repository": {
     "type": "git",
