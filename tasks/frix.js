@@ -1,10 +1,9 @@
 const frix = require('frix');
 const appRoot = require('app-root-path');
 const gutil = require('gulp-util');
-const shell = require('shelljs');
 const optional = require('optional');
 const gitconf = optional(`${appRoot}/gitconf.js`);
-const autocommit = require('autocommit');
+const autocommit = require('./autocommit');
 
 module.exports = () => {
   frix.api.getOpt().root += 'frix/';
