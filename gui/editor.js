@@ -1,3 +1,16 @@
+// set filemanager
+let iframeFiles = document.querySelector('iframe.file');
+iframeFiles.src = `http://${window.location.hostname}:61825`;
+
+document.querySelector('.filemanager .btn-floating').addEventListener('click', () => {
+  let manager = document.querySelector('.filemanager');
+  if(manager.classList.contains('active')) {
+    manager.classList.remove('active');
+  } else {
+    manager.classList.add('active');
+  }
+});
+
 let progress = {
   start: () => {
     document.querySelector('.progress').style.display = 'block';
