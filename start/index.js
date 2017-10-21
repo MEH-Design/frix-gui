@@ -1,3 +1,3 @@
-const shell = require("shelljs");
+const exec = require('child_process').exec;
 
-shell.exec("gulp --gulpfile " + require('app-root-path') + "/node_modules/frix-gui/gulpfile.js");
+exec("gulp --gulpfile " + require('app-root-path') + "/node_modules/frix-gui/gulpfile.js");
